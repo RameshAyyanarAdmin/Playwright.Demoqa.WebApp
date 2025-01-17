@@ -45,7 +45,7 @@ export class dataModel {
         });
     }
 
-    fetch(field: string) {
+    fetch(field: string) {        
         let readData: KeyValuePair[] = this.dataEncaps.get();
         let returnData;
         readData.forEach(pair => {
