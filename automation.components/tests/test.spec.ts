@@ -2,10 +2,12 @@ import { test, Locator, expect } from '@playwright/test';
 import { dataModel } from '../utilities/data-model';
 import { HomePage } from '../pages/home-page';
 import { ElementsPage } from '../pages/elements-page';
+import {testCaseNameGetSet} from '../utilities/common-functions';
 
 test('TC01', async ({ page }) => {
-    const testName = test.info().title;
-    let data = new dataModel(testName);
+    const testCaseName = test.info().title;
+    testCaseNameGetSet.set(testCaseName);
+    let data = new dataModel();
     data.readExcelFile();
     let homePage = new HomePage(page);
     let elementsPage = new ElementsPage(page);
@@ -18,8 +20,9 @@ test('TC01', async ({ page }) => {
 });
 
 test('TC02', async ({ page }) => {
-    const testName = test.info().title;
-    let data = new dataModel(testName);
+    const testCaseName = test.info().title;
+    testCaseNameGetSet.set(testCaseName);
+    let data = new dataModel();
     data.readExcelFile();
     let homePage = new HomePage(page);
     let elementsPage = new ElementsPage(page);

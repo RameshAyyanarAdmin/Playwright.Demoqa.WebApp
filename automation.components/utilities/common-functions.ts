@@ -1,5 +1,24 @@
 import {test, Locator} from '@playwright/test';
 
+
+// Getter and Setters
+// ======================================================================================================================================
+let testCaseName: string;
+let className: string;
+
+export let testCaseNameGetSet = {
+    set: (setdata: string) => { testCaseName = setdata },
+    get: () => testCaseName,
+}
+
+export let ClassNameGetSet = {
+    set: (setdata: string) => { className = setdata },
+    get: () => className,
+}
+
+// ========================================================================================================================================
+
+
 export async function waitForElement(page:any, elementLocator:string, timeOut:number = 10000):Promise<Locator> 
 {
         let returnData:any;

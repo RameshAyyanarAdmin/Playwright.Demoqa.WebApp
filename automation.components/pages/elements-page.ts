@@ -1,6 +1,6 @@
 import { Page } from "playwright";
 import { expect } from '@playwright/test';
-import { waitForElement } from '../utilities/common-functions';
+import { waitForElement, ClassNameGetSet } from '../utilities/common-functions';
 
 export class ElementsPage {
     page: Page;
@@ -10,9 +10,12 @@ export class ElementsPage {
     currentAddress_Textarea: string;
     permanentAddress_Textarea: string;
     submit_Button: string;
+    currentClassName: string;
 
     constructor(page: Page) 
     {
+        this.currentClassName = this.constructor.name;
+        ClassNameGetSet.set(this.currentClassName);
         this.page = page;
         this.textBoxTab = 'xpath=//span[text()="Text Box"]/parent::li';
         this.fullName_Editbox = 'xpath=//label[text()="Full Name"]/parent::div/following-sibling::div/input[@id="userName"]';
