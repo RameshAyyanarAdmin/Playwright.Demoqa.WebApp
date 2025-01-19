@@ -1,4 +1,4 @@
-import {test, Locator} from '@playwright/test';
+import {test, Locator, Page} from '@playwright/test';
 
 
 // Getter and Setters
@@ -17,7 +17,6 @@ export let ClassNameGetSet = {
 }
 
 // ========================================================================================================================================
-
 
 export async function waitForElement(page:any, elementLocator:string, timeOut:number = 10000):Promise<Locator> 
 {

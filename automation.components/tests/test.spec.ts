@@ -1,35 +1,40 @@
-import { test, Locator, expect } from '@playwright/test';
-import { dataModel } from '../utilities/data-model';
+import { test, expect } from '@playwright/test';
 import { HomePage } from '../pages/home-page';
 import { ElementsPage } from '../pages/elements-page';
-import {testCaseNameGetSet} from '../utilities/common-functions';
+import { setupHooks } from './hooks';
+import { Page } from '../pages/page-objects';
+
+// Apply hooks
+setupHooks();
 
 test('TC01', async ({ page }) => {
-    const testCaseName = test.info().title;
-    testCaseNameGetSet.set(testCaseName);
-    let data = new dataModel();
-    data.readExcelFile();
     let homePage = new HomePage(page);
     let elementsPage = new ElementsPage(page);
-
-    await page.goto('https://demoqa.com/', {timeout:60000});
-    console.log('Page loaded!');
     homePage.navigateToElements(30000);
-    elementsPage.textBox_HappyPathValidation(data.fetch('Name'), data.fetch('Email'), data.fetch('Current Address'), data.fetch('Permanent Address'));
+    elementsPage.textBox_HappyPathValidation(Page.data.fetch('Name'), Page.data.fetch('Email'), Page.data.fetch('Current Address'), Page.data.fetch('Permanent Address'));
     await page.waitForTimeout(6000);         
 });
 
 test('TC02', async ({ page }) => {
-    const testCaseName = test.info().title;
-    testCaseNameGetSet.set(testCaseName);
-    let data = new dataModel();
-    data.readExcelFile();
     let homePage = new HomePage(page);
     let elementsPage = new ElementsPage(page);
-
-    await page.goto('https://demoqa.com/', {timeout:60000});
-    console.log('Page loaded!');
     homePage.navigateToElements(30000);
-    elementsPage.textBox_HappyPathValidation(data.fetch('Name'), data.fetch('Email'), data.fetch('Current Address'), data.fetch('Permanent Address'));
+    elementsPage.textBox_HappyPathValidation(Page.data.fetch('Name'), Page.data.fetch('Email'), Page.data.fetch('Current Address'), Page.data.fetch('Permanent Address'));
+    await page.waitForTimeout(6000);         
+});
+
+test('TC03', async ({ page }) => {
+    let homePage = new HomePage(page);
+    let elementsPage = new ElementsPage(page);
+    homePage.navigateToElements(30000);
+    elementsPage.textBox_HappyPathValidation(Page.data.fetch('Name'), Page.data.fetch('Email'), Page.data.fetch('Current Address'), Page.data.fetch('Permanent Address'));
+    await page.waitForTimeout(6000);         
+});
+
+test('TC04', async ({ page }) => {
+    let homePage = new HomePage(page);
+    let elementsPage = new ElementsPage(page);
+    homePage.navigateToElements(30000);
+    elementsPage.textBox_HappyPathValidation(Page.data.fetch('Name'), Page.data.fetch('Email'), Page.data.fetch('Current Address'), Page.data.fetch('Permanent Address'));
     await page.waitForTimeout(6000);         
 });
