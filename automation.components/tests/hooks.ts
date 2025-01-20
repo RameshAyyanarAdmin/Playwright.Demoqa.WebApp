@@ -23,6 +23,7 @@ export const setupHooks = () => {
     console.log('Setting up before all tests');
     // Example: Initialize global resources here
     Page.data.readExcelFile();
+    Page.data.readTestExecutor();
   });
 
   // Runs after all tests

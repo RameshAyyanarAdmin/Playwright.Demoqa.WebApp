@@ -1,19 +1,28 @@
 import {test, Locator, Page} from '@playwright/test';
 
 
+type TestExecuteStatus = {key: string; value: any;};
+
 // Getter and Setters
 // ======================================================================================================================================
+
 let testCaseName: string;
 let className: string;
+let ExecutorData: TestExecuteStatus[] = [];
 
 export let testCaseNameGetSet = {
-    set: (setdata: string) => { testCaseName = setdata },
+    set: (setdata: string) => {testCaseName = setdata},
     get: () => testCaseName,
 }
 
 export let ClassNameGetSet = {
-    set: (setdata: string) => { className = setdata },
+    set: (setdata: string) => {className = setdata},
     get: () => className,
+}
+
+export let ExecutorGetSet = {
+    set: (setdata: TestExecuteStatus[]) => {ExecutorData = setdata},
+    get: () => ExecutorData,
 }
 
 // ========================================================================================================================================

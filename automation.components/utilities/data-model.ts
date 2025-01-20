@@ -1,17 +1,20 @@
 import * as XLSX from 'xlsx';
 import { expect } from '@playwright/test';
-import { ClassNameGetSet, testCaseNameGetSet } from '../utilities/common-functions';
+import { ClassNameGetSet, ExecutorGetSet, testCaseNameGetSet } from '../utilities/common-functions';
 
-type KeyValuePair = { key: string; value: any; };
+type KeyValuePair = {key: string; value: any;};
+type TestExecuteStatus = {key: string; value: string;};
 
 export class dataModel {
 
-    public dataValue: { [sheetName: string]: KeyValuePair[] } = {};
+    public TestExecuteStatus: KeyValuePair[] = [];
+    public dataValue: {[sheetName: string]: KeyValuePair[]} = {};
 
-    readExcelFile(filePath: string = __dirname + '/testDataFile.xlsx') {
+    readExcelFile(filePath: string = __dirname + '/testDataFile.xlsx') 
+    {
         try {
             const workbook = XLSX.readFile(filePath);
-            let testData: { [sheetName: string]: KeyValuePair[] } = {};
+            let testData: {[sheetName: string]: KeyValuePair[]} = {};
             workbook.SheetNames.forEach(sheetName => {
                 const sheet = workbook.Sheets[sheetName];
                 const range = XLSX.utils.decode_range(sheet['!ref']!);
@@ -32,7 +35,7 @@ export class dataModel {
                         }
                     }
                     if (row['TestCaseName']) {
-                        sheetData.push({ key: row['TestCaseName'], value: row });
+                        sheetData.push({key: row['TestCaseName'], value: row});
                     }
                 }
                 testData[sheetName] = sheetData;
@@ -44,8 +47,30 @@ export class dataModel {
         }
     }
 
+    readTestExecutor(filePath: string = __dirname + '/testDataFile.xlsx') {
+        let data: any[] = [];
+        let testData: TestExecuteStatus[] = [];
+        try {
+            const workbook = XLSX.readFile(filePath);
+            const sheetName = workbook.SheetNames[0];
+            const sheet = workbook.Sheets[sheetName];
+            data = XLSX.utils.sheet_to_json(sheet);
+            for (let index in data) 
+                {
+                 let keyValue:string = data[index]['Scenario']
+                 let pairValue:string = data[index]['ExecuteFlag']
+                 console.log("Key Value is: ", keyValue, " Pair Value is: ", pairValue);
+                 testData.push({key: keyValue, value: pairValue});
+                }
+        } catch (error: any) {
+            console.error("Error message:", error.message);
+            expect("data model class failed").toThrow();
+        }
+        ExecutorGetSet.set(testData);
+    }
+
     dataEncaps = {
-        set: (setdata: { [sheetName: string]: KeyValuePair[] }) => { this.dataValue = setdata },
+        set: (setdata:{[sheetName: string]: KeyValuePair[]}) => {this.dataValue=setdata},
         get: () => this.dataValue,
     }
 
@@ -55,7 +80,7 @@ export class dataModel {
         for (let sheetName in testData) {
             if (sheetName === ClassNameGetSet.get()) {
                 let sheetData = testData[sheetName];
-                sheetData.forEach(pair => {
+                sheetData.forEach(pair => {                    
                     if (pair.key === testCaseNameGetSet.get()) {
                         let rowData = pair.value;
                         returnData = rowData[field];
